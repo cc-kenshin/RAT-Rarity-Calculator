@@ -21,11 +21,17 @@ var gleamEffects = {
 	
 }	
 
+function roundNumber(number, digits) {
+    const multiple = Math.pow(10, digits);
+    const roundedNum = Math.round(number * multiple) / multiple;
+    return roundedNum;
+}
+
 var rainbowChance = 0.391	
 
 var printRarity = function (name, tween, gleam, isRainbow, rarity) {
   var listEl = $('<li>');
-  var iconString = (((isRainbow == true & "Rainbow ") || "") + ((tween != null && tween + " ") || "") + ((gleam != null && gleam + " ") || "") + name + " (1/" + rarity + ")") 
+  var iconString = (((isRainbow == true & "Rainbow ") || "") + ((tween != null && tween + " ") || "") + ((gleam != null && gleam + " ") || "") + name + " (1/" + roundNumber(rarity, 2) + ")") 
   listEl.addClass('list-group-item').text(iconString);
   listEl.appendTo(IconsListEl);
 };
@@ -84,7 +90,7 @@ var handleFormSubmit = function (event) {
 
   }
 
-  var calChance = Math.round( (1/(iconChance/100)) * (1/(tweenChance/100)) * (1/(gleamChance/100)) * ((rainbowSelected == true ? rainbowChance : 100 - rainbowChance)/100) ) 
+  var calChance =  ((iconChance / 100) * (tweenChance / 100) * (gleamChance / 100) * (rainbowSelected.checked == true ? rainbowChance : 100 - rainbowChance)  / 100) / 1
 
   printRarity(nameInput, tweenInput, gleamInput, rainbowSelected, calChance);
 
